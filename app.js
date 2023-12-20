@@ -58,5 +58,3 @@ app.get('/players/:playerId/', async (request, response) => {
   response.send(player)
 })
 module.exports = app
- 
- https://github.com/AnkitSomkuwar/coding-question-4.git
