@@ -54,7 +54,9 @@ app.get('/players/:playerId/', async (request, response) => {
   WHERE 
   player_id = ${playerId};`
 
-  const player = await db.get(getPlayerQuery)
-  response.send(player)
+  const players = await db.get(getPlayerQuery)
+  response.send(
+    players.map(eachPlayer => convertDbObjectToResponseObject(eachPlayer)),
+  )
 })
 module.exports = app
