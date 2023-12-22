@@ -49,14 +49,23 @@ app.get('/players/', async (request, response) => {
 app.get('/players/:playerId/', async (request, response) => {
   const {playerId} = request.params
   const getPlayerQuery = `
-  SELECT * 
-  FROM cricket_team
-  WHERE 
-  player_id = ${playerId};`
+    SELECT * 
+    FROM cricket_team
+    WHERE 
+    player_id = ${playerId};`
 
-  const players = await db.get(getPlayerQuery)
-  response.send(
-    players.map(eachPlayer => convertDbObjectToResponseObject(eachPlayer)),
-  )
+  const player = await db.get(getPlayerQuery)
+  response.send(convertDbObjectToResponseObject(player))
+})
+
+app.post('/players/', async (request, response) => {
+  const {playerName, jerseyNumber, role} = request.body
+  const playerQuery = `
+  INSERT INTO 
+  cricket_team (player_name,jersey_number,role)
+  values
+  (${playerName},'${jerseyNumber}','${role}');`
+  await db.run(playerQuery)
+  response.send('Player Added to Team')
 })
 module.exports = app
