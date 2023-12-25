@@ -68,4 +68,20 @@ app.post('/players/', async (request, response) => {
   await db.run(playerQuery)
   response.send('Player Added to Team')
 })
+
+app.put('/players/:playerId/', async (request, response) => {
+  const {playerId} = request.params
+  const playerDetails = request.body
+  const {playerName, jerseyNumber, role} = playerDetails
+  const updateplayerQuery = `
+   UPDATE cricket_team
+   SET 
+   player_name = '${playerName}',
+   jersey_number = ${jerseyNumber},
+   role = ${role}
+   WHERE 
+   player_id = ${playerId};`
+  await db.run(updateplayerQuery)
+  response.send('Player Details Updated')
+})
 module.exports = app
